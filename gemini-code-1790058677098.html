@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Kiểm Tra Tiếng Anh 9 - Ms Lê Hằng English</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        body {
+            font-family: 'Quicksand', 'Nunito', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #8854C0, #FDCB6E, #00C9A7, #FF7675);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            padding: 24px 12px;
+            color: #2D3748;
+        }
+        .container { max-width: 860px; margin: 0 auto; z-index: 1; position: relative; }
+        .header { text-align: center; margin-bottom: 22px; }
+        .teacher-badge {
+            display: inline-block; background: #ffffff; color: #8854C0;
+            font-size: 0.95rem; font-weight: 800; padding: 6px 20px;
+            border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            margin-bottom: 10px; text-transform: uppercase;
+        }
+        .main-title { font-size: 1.7rem; font-weight: 900; color: #ffffff; margin-bottom: 6px; }
+        .warning-box {
+            background: #FFF3BF; border: 3px dashed #FAB005; border-radius: 20px;
+            padding: 18px 22px; text-align: center; margin-bottom: 28px;
+        }
+        .warning-title { color: #D9480F; font-weight: 900; font-size: 1.15rem; margin-bottom: 8px; }
+        .warning-text { color: #495057; font-size: 0.98rem; font-weight: 700; line-height: 1.55; }
+        .section-header-title {
+            background: #2D3748; color: #ffffff; font-weight: 900; font-size: 1.2rem;
+            padding: 12px 20px; border-radius: 16px; margin: 30px 0 15px 0;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .question-card {
+            background: #ffffff; border-radius: 24px; padding: 24px 28px;
+            margin-bottom: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+        .question-card.shake { animation: shake 0.4s ease-in-out; }
+        .question-header { display: flex; align-items: center; margin-bottom: 14px; }
+        .question-number {
+            background: #8854C0; color: white; font-weight: 900; font-size: 1rem;
+            padding: 6px 14px; border-radius: 14px; margin-right: 12px; flex-shrink: 0;
+        }
+        .question-instruction { font-weight: 800; color: #4A5568; font-size: 0.95rem; }
+        .question-text { font-size: 1.15rem; font-weight: 800; color: #2D3748; line-height: 1.6; margin-bottom: 18px; }
+        .options-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        .option-btn {
+            background-color: #F7FAFC; border: 2px solid #E2E8F0; border-radius: 18px;
+            padding: 14px 20px; font-size: 1.05rem; font-weight: 800; color: #2D3748;
+            cursor: pointer; box-shadow: 0 5px 0 #CBD5E0; transition: all 0.15s ease;
+            text-align: left; display: flex; align-items: center;
+        }
+        .option-btn:hover:not(:disabled) { transform: translateY(-3px); background-color: #EDF2F7; }
+        .option-btn.correct { background-color: #00D26A !important; color: white !important; border-color: #00B85C !important; }
+        .option-btn.wrong { background-color: #FF4757 !important; color: white !important; border-color: #E03947 !important; }
+        .option-btn:disabled { cursor: default; }
+        .explanation-box {
+            display: none; margin-top: 20px; background: #EBF8FF;
+            border: 2px solid #63B3ED; border-radius: 18px; padding: 20px; font-size: 0.96rem; line-height: 1.6;
+        }
+        .explanation-title { font-weight: 900; color: #2B6CB0; font-size: 1.05rem; margin-bottom: 12px; }
+        .submit-section { text-align: center; margin: 40px 0; }
+        .submit-btn {
+            background: #00C9A7; color: white; font-size: 1.45rem; font-weight: 900;
+            padding: 18px 54px; border: none; border-radius: 28px; box-shadow: 0 8px 0 #00967D; cursor: pointer;
+        }
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.65); z-index: 100; justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal-content {
+            background: white; border-radius: 28px; padding: 35px 28px; max-width: 520px; width: 100%; text-align: center;
+        }
+        .modal-score { font-size: 3.2rem; font-weight: 900; color: #8854C0; margin: 15px 0; }
+        .modal-feedback { font-size: 1.1rem; font-weight: 800; color: #2D3748; margin-bottom: 25px; background: #F7FAFC; padding: 18px; border-radius: 18px; }
+        .modal-close-btn { background: #8854C0; color: white; font-weight: 900; font-size: 1.15rem; padding: 14px 36px; border: none; border-radius: 20px; cursor: pointer; }
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
+    </style>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+    <div class="container">
+        <header class="header">
+            <div class="teacher-badge">Giáo viên tạo: Ms Lê Hằng English</div>
+            <h1 class="main-title">BÀI KIỂM TRA TIẾNG ANH 9 - TỰ LUẬN & TRẮC NGHIỆM</h1>
+        </header>
+
+        <div class="warning-box">
+            <div class="warning-title">⚠️ LỜI NHẮC CỰC KỲ QUAN TRỌNG ⚠️</div>
+            <div class="warning-text">
+                Hãy chọn đáp án cho từng câu và đọc kỹ phần giải thích chi tiết ngay phía dưới để ghi nhớ cấu trúc ngữ pháp nhé!
+            </div>
+        </div>
+
+        <!-- PHẦN 1: BÀI XI TRẮC NGHIỆM -->
+        <div class="section-header-title">PHẦN 1: XI. CHỌN CÂU ĐỒNG NGHĨA (5 CÂU)</div>
+        <div id="quiz-container-xi"></div>
+
+        <!-- PHẦN 2: HOÀN THÀNH LÁ THƯ -->
+        <div class="section-header-title">PHẦN 2: HOÀN THÀNH LÁ THƯ TỪ TỪ GỢI Ý (10 CÂU)</div>
+        <div id="quiz-container-letter"></div>
+
+        <div class="submit-section">
+            <button class="submit-btn" onclick="submitQuiz()">🎉 NỘP BÀI THI 🎉</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="scoreModal">
+        <div class="modal-content">
+            <h2 style="font-size:1.8rem; font-weight:900;">KẾT QUẢ BÀI THI</h2>
+            <div class="modal-score" id="scoreDisplay">0 / 15</div>
+            <div class="modal-feedback" id="feedbackDisplay"></div>
+            <button class="modal-close-btn" onclick="closeModal()">Xem lại bài làm</button>
+        </div>
+    </div>
+
+    <script>
+        // Dữ liệu Phần XI
+        const quizDataXI = [
+            {
+                id: 101,
+                instruction: "XI. Choose the best second sentence",
+                text: "Question 1. It was breakfast time when Susan rang.",
+                options: [
+                    "When Susan rang I have just finished my breakfast.",
+                    "Susan rang after I had had my breakfast.",
+                    "I was having my breakfast when Susan rang.",
+                    "I was going to have my breakfast as soon as Susan rang."
+                ],
+                correctIndex: 2,
+                translation: "Dịch: Lúc Susan gọi điện là giờ tôi ăn sáng.",
+                whyCorrect: "Cấu trúc: Diễn tả hành động đang diễn ra (was having my breakfast) thì có hành động khác xen vào (when Susan rang).",
+                whyOthersWrong: "A sai thì (have just finished). B và D sai nghĩa thời gian."
+            },
+            {
+                id: 102,
+                instruction: "XI. Choose the best second sentence",
+                text: "Question 2. She has cooked dinner for two hours.",
+                options: [
+                    "She didn't start cooking for dinner until it was two.",
+                    "She started cooking for dinner two hours ago.",
+                    "She has two hours to cook for dinner.",
+                    "Cooking for dinner took her two hours."
+                ],
+                correctIndex: 1,
+                translation: "Dịch: Cô ấy đã nấu bữa tối được 2 tiếng đồng hồ.",
+                whyCorrect: "Chuyển đổi: Hiện tại hoàn thành (for 2 hours) ➜ Quá khứ đơn (started cooking ... 2 hours ago).",
+                whyOthersWrong: "A, C, D không phản ánh chính xác cấu trúc chuyển đổi chuẩn."
+            },
+            {
+                id: 103,
+                instruction: "XI. Choose the best second sentence",
+                text: "Question 3. We have decided to help with the project.",
+                options: [
+                    "We helped with the project.",
+                    "We must help with the project.",
+                    "We will help with the project.",
+                    "We are going to help with the project."
+                ],
+                correctIndex: 3,
+                translation: "Dịch: Chúng tôi đã quyết định sẽ giúp đỡ dự án.",
+                whyCorrect: "Quyết định từ trước (have decided) được diễn tả lại bằng tương lai gần (be going to + V).",
+                whyOthersWrong: "A sai thì quá khứ. B sai nghĩa bắt buộc. C dùng 'will' cho quyết định bộc phát là sai."
+            },
+            {
+                id: 104,
+                instruction: "XI. Choose the best second sentence",
+                text: "Question 4. The last time I went swimming was when we were in Spain.",
+                options: [
+                    "I swam a lot when we were in Spain.",
+                    "I hadn’t been swimming before we moved to Spain.",
+                    "I haven't been swimming since we were in Spain.",
+                    "I went swimming while we lived in Spain."
+                ],
+                correctIndex: 2,
+                translation: "Dịch: Lần cuối tôi đi bơi là khi chúng tôi ở Tây Ban Nha.",
+                whyCorrect: "Chuyển đổi: 'The last time... was when' ➜ 'S + haven't been + V-ing + since...'.",
+                whyOthersWrong: "A, B, D biến đổi sai lệch hẳn ý nghĩa thời gian của câu gốc."
+            },
+            {
+                id: 105,
+                instruction: "XI. Choose the best second sentence",
+                text: "Question 5. He started working as a computer programmer five years ago.",
+                options: [
+                    "He works as a computer programmer five years ago.",
+                    "He was working as a computer programmer five years ago.",
+                    "He has started working as a computer programmer for five years.",
+                    "He has worked as a computer programmer for five years."
+                ],
+                correctIndex: 3,
+                translation: "Dịch: Anh ấy bắt đầu làm lập trình viên máy tính cách đây 5 năm.",
+                whyCorrect: "Chuyển đổi: 'S + started + V-ing + time ago' ➜ 'S + have/has + V3/ed + for + time'.",
+                whyOthersWrong: "C thừa động từ 'started'. A và B sai chia thì."
+            }
+        ];
+
+        // Dữ liệu Lá thư (10 câu)
+        const quizDataLetter = [
+            {
+                id: 201,
+                instruction: "Letter Completion - Câu 1",
+                text: "1. I/ have/ a great time/ here/ America.",
+                options: [
+                    "I am having a great time here in America.",
+                    "I have a great time here America.",
+                    "I had a great time here in America.",
+                    "I will have a great time here America."
+                ],
+                correctIndex: 0,
+                translation: "Dịch: Tôi đang có một khoảng thời gian tuyệt vời ở Mỹ.",
+                whyCorrect: "Thì Hiện tại tiếp diễn (am having) diễn tả trải nghiệm đang diễn ra lúc viết thư + giới từ chỉ vị trí 'in America'.",
+                whyOthersWrong: "B và D thiếu giới từ 'in'. C chia thì Quá khứ chưa phù hợp ngữ cảnh lá thư."
+            },
+            {
+                id: 202,
+                instruction: "Letter Completion - Câu 2",
+                text: "2. My university term/ not start/ until the autumn/ so/ I/ take/ opportunity/ improve my English.",
+                options: [
+                    "My university term does not start until autumn, so I am taking the opportunity to improve my English.",
+                    "My university term not start until autumn so I take opportunity improve my English.",
+                    "My university term doesn't start until autumn, so I take opportunity to improve my English.",
+                    "My university term is not start until the autumn so I am taking opportunity improve English."
+                ],
+                correctIndex: 0,
+                translation: "Dịch: Kỳ học đại học của tôi không bắt đầu cho đến mùa thu, vì vậy tôi đang tận dụng cơ hội này để cải thiện tiếng Anh.",
+                whyCorrect: "Sử dụng 'does not start until...' và cụm từ 'take the opportunity to V'.",
+                whyOthersWrong: "Các lựa chọn khác thiếu mạo từ/giới từ 'to' chỉ mục đích."
+            },
+            {
+                id: 203,
+                instruction: "Letter Completion - Câu 3",
+                text: "3. I / stay/ some English friends/ own/ a farm.",
+                options: [
+                    "I am staying with some English friends who own a farm.",
+                    "I stay with some English friends own a farm.",
+                    "I am staying some English friends who own farm.",
+                    "I stayed with some English friends owned a farm."
+                ],
+                correctIndex: 0,
+                translation: "Dịch: Tôi đang ở cùng một vài người bạn Anh - những người sở hữu một trang trại.",
+                whyCorrect: "Thì Hiện tại tiếp diễn + Mệnh đề quan hệ 'who own a farm'.",
+                whyOthersWrong: "B thiếu đại từ quan hệ 'who'. C thiếu giới từ 'with'."
+            },
+            {
+                id: 204,
+                instruction: "Letter Completion - Câu 4",
+                text: "4. On weekdays/ I catch/ a bus/ Los Angeles /go/ language classes.",
+                options: [
+                    "On weekdays, I catch a bus to Los Angeles to go to language classes.",
+                    "On weekdays I catch bus Los Angeles go language classes.",
+                    "On weekdays, I catch a bus for Los Angeles going language classes.",
+                    "On weekdays, I catch a bus in Los Angeles to go language classes."
+                ],
+                correctIndex: 0,
+                translation: "Dịch: Vào các ngày trong tuần, tôi bắt xe buýt đến Los Angeles để đi học các lớp ngôn ngữ.",
+                whyCorrect: "Cụm 'catch a bus to [địa điểm]' và 'to go to [lớp học]'.",
+                whyOthersWrong: "B, C, D thiếu giới từ chỉ hướng 'to'."
+            },
+            {
+                id: 205,
+                instruction: "Letter Completion - Câu 5",
+                text: "5. My friends/say/ my pronunciation/ much better/ when/ I arrive.",
+                options: [
+                    "My friends say my pronunciation is much better than when I arrived.",
+                    "My friends say my pronunciation much better when I arrive.",
+                    "My friends say my pronunciation is much better when I arrive.",
+                    "My friends said my pronunciation better than when I arrive."
+                ],
+                correctIndex: 0,
+                translation: "Dịch: Bạn tôi nói rằng phát âm của tôi đã tốt hơn nhiều so với khi tôi mới tới.",
+                whyCorrect: "So sánh hơn 'is much better than' + mệnh đề quá khứ 'when I arrived'.",
+                whyOthersWrong: "B thiếu 'is'. C thiếu 'than'. D sai thì."
+            },
+            {
+                id: 206,
+                instruction: "Letter Completion - Câu 6",
+                text: "6. At weekends/I/help/ the farm. It/ quite/ hard work/ but/ I/ like.",
+                options: [
+                    "At weekends, I help on the farm. It is quite hard work, but I like it.",
+                    "At weekends I help the farm. It quite hard work but I like.",
+                    "At weekends, I help in the farm. It is quite hard work, but I like.",
+                    "At weekends, I am helping on the farm. It quite hard work, but I like it."
+                ],
+                correctIndex: 0,
+                translation: "Dịch: Vào cuối tuần, tôi phụ giúp ở trang trại. Công việc khá vất vả nhưng tôi thích nó.",
+                whyCorrect: "Cụm 'help on the farm' và tân ngữ 'it' sau động từ 'like'.",
+                whyOthersWrong: "B và C thiếu tân ngữ 'it' sau 'like'. D thiếu 'is'."
+            },
+            {
+                id: 207,
+                instruction: "Letter Completion - Câu 7",
+                text: "7. you/ come/ see/ me/ Christmas?",
+                options: [
+                    "Will you come to see me at Christmas?",
+                    "Do you come see me on Christmas?",
+                    "Are you come to see me at Christmas?",
+                    "Did you come see me in Christmas?"
+                ],
+                correctIndex: 0,
+                translation: "Dịch: Cậu sẽ đến thăm tớ vào dịp Giáng sinh chứ?",
+                whyCorrect: "Câu hỏi lời mời/ngỏ ý: 'Will you come to see me at Christmas?' (dùng giới từ 'at Christmas').",
+                whyOthersWrong: "B, C, D dùng sai trợ động từ hoặc sai giới từ đi với Christmas."
+            },
+            {
+                id: 208,
+                instruction: "Letter Completion - Câu 8",
+                text: "8. My friends/ want/ meet/ you/ and there/ plenty/ space.",
+                options: [
+                    "My friends want to meet you, and there is plenty of space.",
+                    "My friends want meet you and there plenty of space.",
+                    "My friends want meeting you, and there are plenty space.",
+                    "My friends want to meet you, and there plenty space."
+                ],
+                correctIndex: 0,
+                translation: "Dịch: Bạn của tớ muốn gặp cậu, và ở đây có rất nhiều chỗ trống.",
+                whyCorrect: "Cấu trúc 'want to V' và 'there is plenty of space'.",
+                whyOthersWrong: "B thiếu 'to' và 'is'. C dùng 'want meeting' là sai."
+            },
+            {
+                id: 209,
+                instruction: "Letter Completion - Câu 9",
+                text: "9. Let/me/know/ as soon/ you/ decide.",
+                options: [
+                    "Let me know as soon as you decide.",
+                    "Let me to know as soon as you decide.",
+                    "Let me knowing as soon as you decide.",
+                    "Let me know as soon you decide."
+                ],
+                correctIndex: 0,
+                translation: "Dịch: Hãy cho tớ biết ngay khi cậu quyết định nhé.",
+                whyCorrect: "Cấu trúc 'Let sb V-bare' + liên từ 'as soon as'.",
+                whyOthersWrong: "B dùng 'to know'. C dùng 'knowing'. D thiếu 'as' thứ hai."
+            },
+            {
+                id: 210,
+                instruction: "Letter Completion - Câu 10",
+                text: "10. I/ look forward/ hear/ you/ soon.",
+                options: [
+                    "I look forward to hearing from you soon.",
+                    "I look forward to hear you soon.",
+                    "I look forward hearing from you soon.",
+                    "I am looking forward hear from you soon."
+                ],
+                correctIndex: 0,
+                translation: "Dịch: Tớ rất mong sớm nhận được tin từ cậu.",
+                whyCorrect: "Cấu trúc kinh điển ở cuối thư: 'look forward to + V-ing' + 'hear from sb' (nhận tin từ ai).",
+                whyOthersWrong: "B dùng 'to hear'. C thiếu 'to'. D thiếu 'to'."
+            }
+        ];
+
+        const userAnswers = {};
+
+        function renderSection(dataList, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            dataList.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = `q-card-${q.id}`;
+
+                let optionsHTML = '';
+                q.options.forEach((opt, btnIdx) => {
+                    const letter = String.fromCharCode(65 + btnIdx);
+                    optionsHTML += `
+                        <button class="option-btn" id="btn-${q.id}-${btnIdx}" onclick="handleSelect(${q.id}, ${btnIdx}, ${q.correctIndex})">
+                            <strong style="margin-right:8px;">${letter}.</strong> ${opt}
+                        </button>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="question-header">
+                        <span class="question-number">Câu ${index + 1}</span>
+                        <span class="question-instruction">${q.instruction}</span>
+                    </div>
+                    <div class="question-text">${q.text}</div>
+                    <div class="options-grid">${optionsHTML}</div>
+                    <div class="explanation-box" id="exp-${q.id}">
+                        <div class="explanation-title">💡 GIẢI THÍCH CHI TIẾT TỪ MS LÊ HẰNG ENGLISH</div>
+                        <p style="color:#2D3748; font-weight:700; margin-bottom:8px;">${q.translation}</p>
+                        <p style="color:#276749; font-weight:800; margin-bottom:4px;">✔ Vì sao đúng: ${q.whyCorrect}</p>
+                        <p style="color:#C53030; font-weight:800;">✘ Vì sao các câu khác sai: ${q.whyOthersWrong}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function handleSelect(questionId, selectedIdx, correctIdx) {
+            if (userAnswers[questionId] !== undefined) return;
+            userAnswers[questionId] = selectedIdx;
+            const card = document.getElementById(`q-card-${questionId}`);
+            const selectedBtn = document.getElementById(`btn-${questionId}-${selectedIdx}`);
+            const correctBtn = document.getElementById(`btn-${questionId}-${correctIdx}`);
+            const expBox = document.getElementById(`exp-${questionId}`);
+
+            card.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+
+            if (selectedIdx === correctIdx) {
+                selectedBtn.classList.add('correct');
+            } else {
+                selectedBtn.classList.add('wrong');
+                correctBtn.classList.add('correct');
+                card.classList.add('shake');
+            }
+            expBox.style.display = 'block';
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            const total = quizDataXI.length + quizDataLetter.length;
+            [...quizDataXI, ...quizDataLetter].forEach(q => {
+                if (userAnswers[q.id] === q.correctIndex) score++;
+            });
+            document.getElementById('scoreDisplay').innerText = `${score} / ${total}`;
+            document.getElementById('feedbackDisplay').innerText = score >= 12 ? "Làm tốt lắm, con cố gắng rinh điểm 10 ở lần sau nha!" : "Con cố gắng đọc kỹ giải thích đáp án và làm lại nha!";
+            document.getElementById('scoreModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('scoreModal').style.display = 'none';
+        }
+
+        window.onload = () => {
+            renderSection(quizDataXI, 'quiz-container-xi');
+            renderSection(quizDataLetter, 'quiz-container-letter');
+        };
+    </script>
+</body>
+</html>
